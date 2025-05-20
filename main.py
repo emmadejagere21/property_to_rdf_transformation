@@ -11,10 +11,6 @@ import matplotlib.pyplot as plt
 
 from data_alteration import generate_graph_data, backup_data, restore_backup, remove_backup
 
-#gewone tijd meten
-#nodes, edges, triples, quads tellen
-#probeer ook cpu usage time te meten
-#RAM
 
 mapping_files = [
     "rf_mapping.yml",
@@ -116,47 +112,7 @@ def analyze(file_path):
         "total triples and quads": total_triples
 
     }
-"""
-def rdf_star_analysis(file_path):
-    nested_triples = 0
-    triple_count = 0
-    total_nodes = 0
-    nodes = set()
-    edges = set()
 
-    f = open(file_path, "r")
-    for line in f:
-        line = line.strip()
-
-        if "<<" in line:
-            nested_triples += 1
-
-        if line.endswith("."):
-            triple_count += 1
-
-        parts = line.split()
-        if len(parts) >= 3:
-            s = parts[0]
-            p = parts[1]
-            o = parts[2]
-
-            nodes.add(s)
-            nodes.add(o)
-            total_nodes += 2
-
-            if not s.startswith("<<") and not o.startswith(">>"):
-                edges.add((s, p, o))
-    f.close()
-    return {
-        "nodes": len(nodes),
-        "total_nodes": total_nodes,
-        "edges": len(edges),
-        "triples": triple_count,
-        "nested_triples": nested_triples,
-        "quads": 0
-
-    }
-"""
 runs = []
 backup_data()
 
@@ -238,54 +194,7 @@ for i in range(10):
                 })
     runs.extend(results)
     restore_backup()
-""""
-                else:
-                    yatter_output = os.path.join(yatter_output_dir, f"{base_name}_{size}_{multiplier}x_yatter.ttl")
-                    yatter_cmd = f"python3 -m yatter -i {mapping_file} -o {yatter_output}"
-                    yatter_time, yatter_cpu = run_command(yatter_cmd)
-                    if yatter_time is None:
-                        print(f"Yatter failed, {base_name}, size={size}, multiplier={multiplier}")
-                        continue
 
-                    mapper_output = os.path.join(mapper_output_dir, f"{base_name}_{size}_{multiplier}x_mapped.ttl")
-                    mapper_cmd = f"java -Xmx14G -jar {mapper_jar} -m {yatter_output} -o {mapper_output}"
-                    mapper_time, mapper_cpu = run_command(mapper_cmd)
-                    if mapper_time is None:
-                        print(f"RMLMapper failed, {base_name}, size={size}, multiplier={multiplier}")
-                        continue
-
-                    try:
-                        stats = analyze(mapper_output)
-                    except Exception:
-                        print(f"Analyse mislukt voor {base_name} bij {size} nodes × {multiplier} edges.")
-                        continue
-
-                    results.append({
-                        "algorithm": base_name,
-                        "size": size,
-                        "multiplier": multiplier,
-                        "yatter_time": round(yatter_time * 1000, 3),
-                        "yatter_cpu": round(yatter_cpu * 1000, 3),
-                        "mapper_time": round(mapper_time * 1000, 3),
-                        "mapper_cpu": round(mapper_cpu *1000, 3),
-                        **stats
-                    })
-    runs.extend(results)
-    restore_backup()
-  """
-
-
-#
-#    print("\n Resultaten:")
-#    print(f"{'Algorithm':<15} {'Size':<8} {'Mult':<6} {'Yatter (ms)':<12} {'Y_CPU (ms)':<12} {'Mapper (ms)':<12} {'M_CPU (ms)':<12} {'Unique nodes':<12} {'Edges':<8} "
-#          f"{'Triples':<8} {'Quads':<8} {'Nested':<8} {'Total nodes':<8} ")
-
-#   print("=" * 140)
-#    for r in results:
-#        print(
-#            f"{r['algorithm']:<15} {r['size']:<8} {r['multiplier']:<6} {r['yatter_time']:<12} {r.get('yatter_cpu', '-'):<12} "
-            #            f"{r['mapper_time']:<14} {r.get('mapper_cpu', '-'):<14} "
-            #f"{r['nodes']:<10} {r['edges']:<8} {r['triples']:<8} {r['quads']:<8} {r.get('nested_triples', 0):<8} {r['total_nodes']:<8}")
 
 
 def make_plots(file_path, prefix):
@@ -381,27 +290,7 @@ def per_algorithm_detailed_plot(file_template, label):
             plt.savefig(f"plots/per_algorithm/{alg}_{label}_{metric}.png")
             plt.close()
 
-""""
-if runs:
-    df = pd.DataFrame(runs)
-    group_cols = ["algorithm", "size", "multiplier"]
-    average_df = df.groupby(group_cols).mean(numeric_only=True).reset_index()
-    median_df = df.groupby(group_cols).median(numeric_only=True).reset_index()
 
-    average_df.to_csv("results/average_results.csv", index=False)
-    median_df.to_csv("results/median_results.csv", index=False)
-
-    for algorithm in df["algorithm"].unique():
-        avg_subset = average_df[average_df["algorithm"] == algorithm]
-        med_subset = median_df[median_df["algorithm"] == algorithm]
-
-        avg_subset.to_csv(f"results/average_{algorithm}.csv", index=False)
-        med_subset.to_csv(f"results/median_{algorithm}.csv", index=False)
-
-        big_combined_plot(f"results/average_{algorithm}.csv", f"{algorithm} - Average")
-        big_combined_plot(f"results/median_{algorithm}.csv", f"{algorithm} - Median")
-
-"""
 df = pd.DataFrame(runs)
 
  #

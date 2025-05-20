@@ -1,0 +1,33 @@
+prefixes:
+  pg: http://pg/ 
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  rml: http://w3id.org/rml/ 
+  ex: http://example.org/
+  xsd: http://www.w3.org/2001/XMLSchema# 
+
+mappings:
+  TriplesMap1:
+    s: ex:n$(id)
+    sources:
+      - ['data.json~jsonpath', '$.[?(@.type=="node")]']
+    po:
+      - [rdfs:label, $(labels.0)]
+      - [ex:name, $(properties.name)]
+      - [ex:title, $(properties.title)]
+
+  TriplesMap2:
+    s: ex:e$(id)
+    sources:
+      - ['data.json~jsonpath', '$.[?(@.type=="relationship")]']
+    po:
+      - [ex:nodeToedge, ex:e$(id)]
+
+  TriplesMap3:
+    s: ex:n$(start.id)
+    sources:
+      - ['data.json~jsonpath', '$.[?(@.type=="relationship")]']
+    po:
+      - [ex:edgeTonode, ex:n$(end.id)]
+      - [rdfs:label, $(label)]
+      - [ex:since, $(properties.date)]

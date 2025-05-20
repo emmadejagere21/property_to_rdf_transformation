@@ -1,0 +1,78 @@
+[
+  {
+    "type": "node",
+    "id": "0",
+    "labels": ["Movie"],
+    "properties": {
+      "title": "Inception"
+    }
+  },
+  {
+    "type": "node",
+    "id": "1",
+    "labels": ["Movie"],
+    "properties": {
+      "title": "The Matrix"
+    }
+  },
+  {
+    "type": "node",
+    "id": "2",
+    "labels": ["Person"],
+    "properties": {
+      "name": "Alice"
+    }
+  },
+  {
+    "type": "node",
+    "id": "3",
+    "labels": ["Person"],
+    "properties": {
+      "name": "Bob"
+    }
+  },
+  {
+    "type": "relationship",
+    "id": "4",
+    "label": "WATCHED",
+    "properties": {
+      "date": "2025-03-01"
+    },
+    "start": {
+      "id": "2",
+      "labels": ["Person"],
+      "properties": {
+        "name": "Alice"
+      }
+    },
+    "end": {
+      "id": "0",
+      "labels": ["Movie"],
+      "properties": {
+        "title": "Inception"
+      }
+    }
+  },
+  {
+    "type": "relationship",
+    "id": "5",
+    "label": "WATCHED",
+    "properties": {
+      "date": "2025-03-02"
+    },
+    "start": {
+      "id": "3",
+      "labels": ["Person"],
+      "properties": {
+        "name": "Bob"
+      }
+    },
+    "end": {
+      "id": "1",
+      "labels": ["Movie"],
+      "properties": {
+        "title": "The Matrix"
+      }
+    }
+  }
+]

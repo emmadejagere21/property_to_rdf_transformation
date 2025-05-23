@@ -37,7 +37,6 @@ for csv_file in csv_files:
 
     df = pd.read_csv(input_path)
 
-    # Round specific columns
     for col in df.columns:
         if col in six_decimal_columns and col in df:
             continue

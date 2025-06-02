@@ -39,6 +39,10 @@ Other scripts:
 - csvtolatex.py: Convert a CSV file to LaTeX format
 - plot.py: Visualize the data graphically
 
+### Remarks
+
+The amount of nodes and the amount of edges can be changed in nodes_size and multipliers. For quick tests, please reduce these. If not, the run will take a while.
+
 ## Data Format
 
 Sample JSON files (data.json, data_backup.json) include nodes (e.g., Movies, People) and relationships (e.g., WATCHED) for demonstration.
